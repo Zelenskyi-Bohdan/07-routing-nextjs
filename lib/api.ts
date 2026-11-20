@@ -15,7 +15,8 @@ export interface CreateNoteData {
 
 export const fetchNotes = async (
   request: string,
-  page: number
+  page: number,
+  tag?: NoteTag
 ): Promise<NoteResponse> => {
   const response = await axios.get<NoteResponse>(
     `https://notehub-public.goit.study/api/notes`,
@@ -23,7 +24,8 @@ export const fetchNotes = async (
       params: {
         search: request,
         page,
-        perPage: 12
+        perPage: 12,
+        ...(tag && { tag })
         },
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_NOTEHUB_TOKEN}`,

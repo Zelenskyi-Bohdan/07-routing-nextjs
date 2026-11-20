@@ -10,17 +10,21 @@ import Pagination from '@/components/Pagination/Pagination';
 import SearchBox from '@/components/SearchBox/SearchBox';
 import NoteForm from '@/components/NoteForm/NoteForm';
 import Modal from '@/components/Modal/Modal';
+import { NoteTag } from '@/types/note';
 
+interface NotesProps {
+    tag: NoteTag | undefined;
+}
 
-function Notes() {
+function Notes({ tag }: NotesProps) {
     const [query, setQuery] = useState<string>("");
     const [page, setPage] = useState(1);
     const [text, setText] = useState<string>("");
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const { data, isError, isLoading, isSuccess } = useQuery({
-        queryKey: ['notes', query, page],
-        queryFn: () => fetchNotes(query, page),
+        queryKey: ['notes', query, page, tag],
+        queryFn: () => fetchNotes(query, page, tag),
         placeholderData: keepPreviousData,
     });
 
